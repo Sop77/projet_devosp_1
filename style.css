@@ -1,0 +1,104 @@
+/* Style général du corps de la page */
+body {
+    font-family: Arial, sans-serif; /* Police de caractères pour tout le texte */
+    background-color: #f4f4f4; 
+    margin: 0;
+    padding: 20px;
+}
+
+/* Style pour les titres h1 */
+h1 {
+    color: #333; /* Couleur du texte */
+    text-align: center; /* Centrer le texte */
+}
+
+/* Style pour les tables */
+table {
+    width: 30%; /* Largeur de la table à 100% du conteneur parent */
+     /* Espace au-dessus de la table */ 
+    border-collapse: collapse; /* Les bordures des cellules sont fusionnées */
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #ffff;
+}
+form {
+    margin-left: auto;
+    margin-right: auto;
+}
+.center-image {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Cette ligne est optionnelle, elle sert à centrer verticalement si nécessaire */
+}
+/* Style pour les cellules de table */
+td {
+    padding: 10px; /* Remplissage autour du texte dans les cellules */
+    border: 1px solid #ccc; /* Bordure des cellules */
+}
+
+/* Style pour les labels */
+label {
+    font-weight: bold; /* Texte en gras */
+    display: block; /* Each label on a new line */
+    margin-bottom: 5px; /* Space below each label */
+    font-size: 15px; /* Slightly larger font size for better readability */
+
+    
+}
+/* Paragraph style */
+p {
+    margin: 5px ; /* Adds vertical spacing but minimal horizontal spacing */
+    color: #666; /* Slightly lighter grey for readability */
+    font-size: 13px; /* Slightly larger font size for better readability */
+    margin-top: 5px;
+    margin-left: auto; /* Espace au-dessus de chaque élément */
+    margin-right: auto;
+}
+
+/* Style des liens, en particulier le lien de modification */
+a {
+    display: inline-block;
+    background-color: #007bff; /* Couleur de fond du bouton */
+    color: white; /* Couleur du texte du bouton */
+    padding: 10px 20px; /* Padding autour du texte */
+    text-align: center;
+    text-decoration: none; /* Enlever le soulignement */
+    border-radius: 5px; /* Bordures arrondies */
+    transition: background-color 0.3s; /* Animation lors du survol */
+}
+
+/* Style pour les inputs et select */
+input[type="text"],
+input[type="date"],
+input[type="email"],
+select {
+    width:100%; /* Largeur à 100% de la cellule */
+    padding: 8px; /* Remplissage à l'intérieur de l'élément */
+    border: 1px solid #ccc; /* Bordure autour de l'élément */
+    box-sizing: border-box; /* La largeur inclut le padding et la bordure */
+}
+
+
+/* Style pour les boutons */
+button {
+    background-color: #4CAF50; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    padding: 10px 20px; /* Remplissage autour du texte */
+    border: none; /* Pas de bordure */
+    border-radius: 5px; /* Bordures arrondies */
+    cursor: pointer; /* Curseur en forme de pointeur */
+    margin-top: 10px; /* Espace au-dessus du bouton */
+}
+.annuler {
+    background-color: #f40c0c; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    padding: 10px 20px; /* Remplissage autour du texte */
+    border: none; /* Pas de bordure */
+    border-radius: 5px; /* Bordures arrondies */
+    cursor: pointer; /* Curseur en forme de pointeur */
+    margin-top: 10px; /* Espace au-dessus du bouton */
+}
+/* Changement de style au survol du bouton */
+button:hover {
+    background-color: #253c27;
+}
