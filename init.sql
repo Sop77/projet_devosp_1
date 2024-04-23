@@ -17,4 +17,4 @@ CREATE TABLE IF NOT EXISTS personne (
 );
 -- Insertion d'une personne dans la table personnes
 INSERT INTO personne (prenom, nom, date_naiss, lieu, adress, email,telephone) 
-VALUES ('Sop', 'Dia', '2000-10-10', 'Dakar','Colobane', 'sopd479@gmail.com','+221772178022');
+VALUES ('Soxna', 'Dia', '2000-10-10', 'Dakar','Sicap_foire', 'soxna19@gmail.com','+221772178022');

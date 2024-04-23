@@ -2,7 +2,7 @@
 // Paramètres de connexion à la base de données
 $serveur = 'localhost';
 $nom_utilisateur = 'root';
-$mot_de_passe = 'root';
+$mot_de_passe = '';
 $nom_base_de_donnees = 'aws_p3_g1';
 
 try {
