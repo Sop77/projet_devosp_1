@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  web: # le nom conteneur 
+    build:  # On niveau du lancement on cree notre image
+      context: .  # Assurez-vous que ce répertoire contient le Dockerfile pour le service web
+      dockerfile: web.Dockerfile
+    ports:
+      - 8000:80 #Mappage de port
+    depends_on:    #Signifie que le conteneur db va etre cree en premier
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USER: root
+      DATABASE_PASSWORD: root
+      DATABASE_NAME: aws_p3_g1
+
+
+  db:
+    build:  
+      context: .  # Assurez-vous que ce répertoire contient le Dockerfile pour le service db
+      dockerfile: Dd.Dockerfile
+    volumes:
+      - mysql_data:/var/lib/mysql  #Mappage de volume pour rendre les donnees permanent meme apres la suppression du conteneur
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+volumes:
+  mysql_data:
+
