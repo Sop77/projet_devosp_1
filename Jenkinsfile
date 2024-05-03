@@ -8,8 +8,8 @@ pipeline {
         }
         stage("build") {
             steps {
-                bat 'docker --version'
-                bat "docker-compose up -d --build"
+                sh 'docker --version'
+                sh "docker-compose up -d --build"
             }
         }
     }
