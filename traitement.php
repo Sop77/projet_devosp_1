@@ -30,10 +30,12 @@ try {
 
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
-            echo "Mise à jour réussie !";
+          //  echo "Mise à jour réussie !";
+            header("Location: index.php");
         } else {
             echo "Aucune ligne mise à jour.";
         }
+        
         
       //  Rediriger après la mise à jour
        header("Location: index.php");
