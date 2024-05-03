@@ -8,7 +8,7 @@ pipeline {
         }
         stage("build") {
             steps {
-                sh "docker-compose up -d --build"
+                bat "docker-compose up -d --build"
             }
         }
     }
