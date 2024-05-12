@@ -19,7 +19,7 @@ pipeline {
                 script {
                     // Mettez ici vos commandes pour exécuter des tests
                     echo "Running tests"
-                    ba 'curl -s http://localhost:8000'
+                    bat 'curl -s http://localhost:8000'
                 }
             }
         }
