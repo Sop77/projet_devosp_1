@@ -19,7 +19,7 @@ pipeline {
                 script {
                     // Mettez ici vos commandes pour exécuter des tests
                     echo "Running tests"
-                    sh 'curl -s http://localhost:8000'
+                    ba 'curl -s http://localhost:8000'
                 }
             }
         }
@@ -35,7 +35,7 @@ pipeline {
     post {
         success {
             // Nettoyer les ressources Docker
-            sh 'docker-compose down -v'
+            bat 'docker-compose down -v'
             emailext body: 'Resultat du build: Success', subject: 'Detail du Build', to: 'sopd479@gmail.com'
 
         }
