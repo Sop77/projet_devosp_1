@@ -1,33 +1,29 @@
 pipeline {
-    agent any
-    environment {
-        DOCKER_COMPOSE_VERSION = '1.29.2'
-        PATH = "/usr/local/bin:$PATH" // Assurez-vous que cela inclut le chemin vers Docker
-    }
+    agent any  
     stages {
-        stage('Build') {
+        stage("test") {
+            steps {
+                echo "hello world"
+            }
+        }
+        stage("build") {
             steps {
                 script {
-                    sh 'docker --version' // Vérifier que Docker est accessible
-                    // Lancement de Docker Compose
-                    sh 'docker-compose up -d --build'
+                    bat 'docker --version'
+                    //bat "docker-compose up -d --build"
                 }
             }
         }
-        stage('Test') {
+        stage("deploy to Kubernetes") {
             steps {
-                script {
-                    // Mettez ici vos commandes pour exécuter des tests
-                    echo "Running tests"
-                    sh 'curl -s http://localhost:8000'
-                }
-            }
-        }
-        stage('Test Deploy') {
-            steps {
-                script {
-                    // Mettez ici vos commandes pour déployer l'application
-                    echo "Deploy"
+                withCredentials([file(credentialsId: 'configuration2', variable: 'KUBECONFIG')]) {
+                    script {
+                        // Déployer sur Kubernetes
+                        bat "kubectl apply -f mysql-deployment.yaml --kubeconfig=${KUBECONFIG} --validate=false"
+                        bat "kubectl apply -f php-deployment.yaml --kubeconfig=${KUBECONFIG} --validate=false"
+                        bat "kubectl apply -f mysql-service.yaml --kubeconfig=${KUBECONFIG} --validate=false"
+                        bat "kubectl apply -f php-service.yaml --kubeconfig=${KUBECONFIG} --validate=false"
+                    }
                 }
             }
         }
