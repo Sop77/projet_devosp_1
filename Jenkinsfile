@@ -19,10 +19,10 @@ pipeline {
                 withCredentials([file(credentialsId: 'configuration1', variable: 'KUBECONFIG')]) {
                     script {
                         // Déployer sur Kubernetes
-                        bat "kubectl apply -f kubernetes/mysql-deployment.yaml --kubeconfig=${KUBECONFIG} --validate=false"
-                        bat "kubectl apply -f kubernetes/php-deployment.yaml --kubeconfig=${KUBECONFIG} --validate=false"
-                        bat "kubectl apply -f kubernetes/mysql-service.yaml --kubeconfig=${KUBECONFIG} --validate=false"
-                        bat "kubectl apply -f kubernetes/php-service.yaml --kubeconfig=${KUBECONFIG} --validate=false"
+                        bat "kubectl apply -f mysql-deployment.yaml --kubeconfig=${KUBECONFIG} --validate=false"
+                        bat "kubectl apply -f php-deployment.yaml --kubeconfig=${KUBECONFIG} --validate=false"
+                        bat "kubectl apply -f mysql-service.yaml --kubeconfig=${KUBECONFIG} --validate=false"
+                        bat "kubectl apply -f php-service.yaml --kubeconfig=${KUBECONFIG} --validate=false"
                     }
                 }
             }
