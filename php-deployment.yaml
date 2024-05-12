@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-service
+  labels:
+    app: php
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: php
+  template:
+    metadata:
+      labels:
+        app: php
+    spec:
+      containers:
+      - name: php-container
+        image: sopd/mon_php_img
+        ports:
+        - containerPort: 80
+      volumes:
+      - name: php-app
+        emptyDir: {}
+
+#"""
+#template: Modèle de pod utilisé par le Deployment.
+#metadata: Métadonnées du pod.
+#labels: Étiquettes du pod.
+#spec: Spécification du pod.
+#containers: Liste des conteneurs dans le pod.
+#name: Nom du conteneur.
+#image: Image Docker utilisée pour le conteneur.
+#ports: Ports exposés par le conteneur.
+#env: Variables d'environnement du conteneur.
+#volumeMounts: Points de montage des volumes dans le conteneur.
+#volumes: Liste des volumes du pod.
+#persistentVolumeClaim: Volume persistant réclamé par le pod.
+#spec: Spécification du Deployment.
+#replicas: Nombre de répliques du pod à maintenir.
+#selector: Sélecteur pour déterminer quels pods sont contrôlés par ce Deployment.
+#matchLabels: Étiquettes utilisées pour sélectionner les pods contrôlés par ce Deployment."""

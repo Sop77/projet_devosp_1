@@ -1,6 +1,6 @@
 <?php
 // Paramètres de connexion à la base de données
-$serveur = 'db';
+$serveur = 'mysql-service';
 $nom_utilisateur = 'root';
 $mot_de_passe = 'root';
 $nom_base_de_donnees = 'aws_p3_g1';
@@ -30,15 +30,14 @@ try {
 
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
-            echo "Mise à jour réussie !";
+            // Rediriger après la mise à jour
+            header("Location: index.php");
+          #  exit; // Assurez-vous de sortir du script ici
         } else {
             echo "Aucune ligne mise à jour.";
+           # exit; // Assurez-vous de sortir du script ici
         }
         
-      //  Rediriger après la mise à jour
-       header("Location: index.php");
-        exit;
-    } else {
         // Récupérer les données existantes pour affichage
         $requete = "SELECT * FROM personne WHERE matricule = :matricule";
         $stmt = $connexion->prepare($requete);

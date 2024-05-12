@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  labels:
+    app: mysql
+# Spécification du nombre de répliques de MySQL à maintenir
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+# Modèle de pod pour MySQL
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql-container
+        image: sopd/mysql_img
+        ports:
+        - containerPort: 3306
+        # Définition de la variable d'environnement pour le mot de passe root de MySQL
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        # Point de montage du volume pour stocker les données MySQL
+        #volumeMounts:
+        #- name: mysql-service
+        #  mountPath: /var/lib/mysql
+      # Définition du volume persistant pour MySQL
+      #volumes:
+      #- name: mysql-data
+      #  persistentVolumeClaim:
+      #    claimName: mysql-pvc
+# commande kubectl apply -f nom_du_fichier.yaml

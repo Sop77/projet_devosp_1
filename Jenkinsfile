@@ -36,11 +36,11 @@ pipeline {
         success {
             // Nettoyer les ressources Docker
             sh 'docker-compose down -v'
-            emailext body: 'Resultat du build: Success', subject: 'Detail du Build', to: 'ngeuya58@gmail.com'
+            emailext body: 'Resultat du build: Success', subject: 'Detail du Build', to: 'sopd479@gmail.com'
 
         }
         failure {
-            emailext body: 'Resultat du build: Echec', subject: 'Detail du Build', to: 'ngeuya58@gmail.com'
+            emailext body: 'Resultat du build: Echec', subject: 'Detail du Build', to: 'sopd479@gmail.com'
         }
     }
 }
