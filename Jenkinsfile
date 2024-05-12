@@ -8,7 +8,23 @@ pipeline {
         }
         stage("build") {
             steps {
-                bat "docker-compose up -d --build"
+                script {
+                    bat 'docker --version'
+                   // bat "docker-compose up -d --build"
+                }
+            }
+        }
+        stage("deploy to Kubernetes") {
+            steps {
+                withCredentials([file(credentialsId: 'configuration1', variable: 'KUBECONFIG')]) {
+                    script {
+                        // Déployer sur Kubernetes
+                        bat "kubectl apply -f kubernetes/mysql-deployment.yaml --kubeconfig=${KUBECONFIG} --validate=false"
+                        bat "kubectl apply -f kubernetes/php-deployment.yaml --kubeconfig=${KUBECONFIG} --validate=false"
+                        bat "kubectl apply -f kubernetes/mysql-service.yaml --kubeconfig=${KUBECONFIG} --validate=false"
+                        bat "kubectl apply -f kubernetes/php-service.yaml --kubeconfig=${KUBECONFIG} --validate=false"
+                    }
+                }
             }
         }
     }
@@ -24,7 +40,7 @@ pipeline {
             emailext (
                 subject: "Notification de build Jenkins - Échec",
                 body: "Le build de votre pipeline Jenkins a échoué.",
-                to: "sopd479@email.com",
+                to: "sopd479@gmail.com",
             )
         }
     }
