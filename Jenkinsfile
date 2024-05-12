@@ -8,9 +8,9 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh 'docker --version' // Vérifier que Docker est accessible
+                    bat 'docker --version' // Vérifier que Docker est accessible
                     // Lancement de Docker Compose
-                    sh 'docker-compose up -d --build'
+                    bat 'docker-compose up -d --build'
                 }
             }
         }
