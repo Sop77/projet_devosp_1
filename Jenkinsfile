@@ -5,7 +5,7 @@ pipeline {
         KUBECONFIG = "C:\\Users\\HP\\.kube\\config"
         // Chemin où se trouvent vos fichiers Terraform dans votre projet
         //TERRA_DIR = "C:\\xampp\\htdocs\\Gestion_Etudiant\\terra"
-       TERRA_DIR = C:\\xampp\\htdocs\\mon_projet_aws\\Terraform
+       TERRA_DIR = "C:\\xampp\\htdocs\\mon_projet_aws\\Terraform"
     }
     stages {
         stage('Initialization') {
