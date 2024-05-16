@@ -55,14 +55,14 @@ pipeline {
             emailext (
                 subject : "Notification de build de jenkins avec terraform-succes",
                 body : "votre build de pipeline jenkins terraform passe avec succes",
-                to : "sambasy837@gmail.com"
+                to : "sopd479@gmail.com"
             )
         }
         failure {
             emailext (
                 subject : "Notification de build de jenkins avec terraform echec",
                 body : "votre build de pipeline jenkins ne passe pas",
-                to : "sambasy837@gmail.com"
+                to : "sopd479@gmail.com"
             )
         }
     }
