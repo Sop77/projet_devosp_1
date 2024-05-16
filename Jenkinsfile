@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        KUBECONFIG = credentials('configuration2') // Spécifier l'emplacement du fichier KUBECONFIG
+        KUBECONFIG = credentials('config (configuration2)') // Spécifier l'emplacement du fichier KUBECONFIG
     }
 
     stages {
