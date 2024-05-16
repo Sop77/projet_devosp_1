@@ -7,6 +7,7 @@ pipeline {
                     dir('Terraform'){
                         bat 'terraform --version' // Vérifier que Terraform est accessible
                         bat 'terraform init' // Initialiser Terraform dans le répertoire du projet
+                    }
                 }
             }
         }
