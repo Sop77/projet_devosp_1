@@ -1,7 +1,14 @@
 pipeline {
-    agent any  
+    agent any
+
+    environment {
+        KUBECONFIG = credentials('configuration2') // Spécifier l'emplacement du fichier KUBECONFIG
+    }
+
     stages {
-        stage("Terraform Init") {
+        stage('Checkout') {}
+            
+        stage('Terraform Init') {
             steps {
                 script {
                     dir('Terraform'){
@@ -11,28 +18,31 @@ pipeline {
                 }
             }
         }
-        stage("Terraform Plan") {
+        stage('Terraform Plan') {
             steps {
                 script {
-                    bat 'terraform plan -out=tfplan -input=false' // Planifier les changements Terraform
+                    dir('Terraform'){
+                        bat 'terraform plan -out=tfplan' // Planifier les modifications Terraform
+                    }
                 }
             }
         }
-        stage("Terraform Apply") {
+        stage('Terraform Apply') {
             steps {
                 script {
-                    bat 'terraform apply -input=false tfplan' // Appliquer les changements Terraform
+                    dir('Terraform'){
+                        bat 'terraform apply -auto-approve tfplan' // Appliquer les modifications Terraform
+                    }
                 }
             }
         }
+    
     post {
         success {
-            // Nettoyer les ressources Terraform en cas de succès
-            bat 'terraform destroy -auto-approve'
-            emailext body: 'Résultat du build : Succès', subject: 'Détails du Build', to: 'sopd479@gmail.com'
+            echo 'Déploiement réussi!'
         }
         failure {
-            emailext body: 'Résultat du build : Échec', subject: 'Détails du Build', to: 'sopd479@gmail.com'
+            echo 'Échec du déploiement.'
         }
     }
 }
