@@ -25,20 +25,6 @@ pipeline {
                 }
             }
         }
-        stage("Deploy to Kubernetes") {
-            steps {
-                withCredentials([file(credentialsId: 'configuration2', variable: 'KUBECONFIG')]) {
-                    script {
-                        // Déployer sur Kubernetes
-                        bat "kubectl apply -f mysql-deployment.yaml --kubeconfig=${KUBECONFIG} --validate=false"
-                        bat "kubectl apply -f php-deployment.yaml --kubeconfig=${KUBECONFIG} --validate=false"
-                        bat "kubectl apply -f mysql-service.yaml --kubeconfig=${KUBECONFIG} --validate=false"
-                        bat "kubectl apply -f php-service.yaml --kubeconfig=${KUBECONFIG} --validate=false"
-                    }
-                }
-            }
-        }
-    }
     post {
         success {
             // Nettoyer les ressources Terraform en cas de succès
