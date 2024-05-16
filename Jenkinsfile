@@ -6,6 +6,11 @@ pipeline {
     }
 
     stages {
+        stage('Checkout') {
+            steps {
+                Checkout 
+            }
+        }
         stage('Terraform Init') {
             steps {
                 script {
