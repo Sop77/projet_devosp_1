@@ -6,12 +6,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Ajoutez ici les étapes pour récupérer le code depuis GitHub
-                // Par exemple : git branch: 'votre_branche', credentialsId: 'votre_credentiel_git', url: 'URL_de_votre_projet_git'
-            }
-        }
         stage('Terraform Init') {
             steps {
                 script {
