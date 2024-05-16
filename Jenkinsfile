@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                Checkout 
+                checkout scm
             }
         }
         stage('Terraform Init') {
