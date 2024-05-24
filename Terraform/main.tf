@@ -9,15 +9,19 @@ terraform {
   }
 }
 
-# Déclaration du provider Kubernetes
-#provider "kubernetes" {
- # config_path = "~/.kube/config"
-#}
 
-#provider "kubernetes" {
- # config_path = "C:/Users/HP/.kube/config"
-#}
+provider "kubernetes" {
+  config_path = "/home/sop/.kube/config"
+}
 
+# Terraform provisionne uniquement le cluster Kubernetes ici
+# Les déploiements et services Kubernetes seront gérés par Ansible
+
+output "kube_config" {
+  value = file("/home/sop/.kube/config")
+  sensitive = true
+}
+/*
 provider "kubernetes" {
   config_path = "C:\\Users\\HP\\.kube\\config"
 }
@@ -46,3 +50,4 @@ resource  "kubernetes_manifest" "mysql_service" {
   manifest= yamldecode(file("../mysql-service.yaml"))
   
 }
+*/

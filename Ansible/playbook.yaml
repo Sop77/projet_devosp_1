@@ -1,0 +1,27 @@
+---
+- name: Deploy applications to Kubernetes
+  hosts: localhost
+  tasks:
+    - name: Deploy PHP application
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', '../php-deployment.yaml') }}"
+        kubeconfig: "C:\\Users\\HP\\.kube\\config"
+
+    - name: Deploy MySQL application
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', '../mysql-deployment.yaml') }}"
+        kubeconfig: "C:\\Users\\HP\\.kube\\config"
+
+    - name: Create service for PHP application
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', '../php-service.yaml') }}"
+        kubeconfig: "C:\\Users\\HP\\.kube\\config"
+
+    - name: Create service for MySQL application
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', '../mysql-service.yaml') }}"
+        kubeconfig: "C:\\Users\\HP\\.kube\\config"
