@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql-deployment
+  namespace: default
   labels:
     app: mysql
 # Spécification du nombre de répliques de MySQL à maintenir

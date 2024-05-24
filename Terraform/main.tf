@@ -10,9 +10,18 @@ terraform {
 }
 
 # Déclaration du provider Kubernetes
+#provider "kubernetes" {
+ # config_path = "~/.kube/config"
+#}
+
+#provider "kubernetes" {
+ # config_path = "C:/Users/HP/.kube/config"
+#}
+
 provider "kubernetes" {
-  config_path = "~/.kube/config"
+  config_path = "C:\\Users\\HP\\.kube\\config"
 }
+
 
 # Récupération du contenu YAML pour le déploiement PHP
 resource  "kubernetes_manifest" "php_deployment" {

@@ -1,50 +1,69 @@
 pipeline {
-    agent any  
+    agent any
+    environment {
+        // Assurez-vous que ce chemin mène à votre kubeconfig local généré par Minikube
+        KUBECONFIG = "C:\\Users\\HP\\.kube\\config"
+        // Chemin où se trouvent vos fichiers Terraform dans votre projet
+        //TERRA_DIR = "C:\\xampp\\htdocs\\Gestion_Etudiant\\terra"
+       TERRA_DIR = "C:\\xampp\\htdocs\\mon_projet_aws\\Terraform"
+    }
     stages {
+        stage('Initialization') {
+            steps {
+                // Affiche la version de Terraform pour le débogage
+                script {
+                    bat 'terraform --version'
+                }
+            }
+        }
+        
         stage("Terraform Init") {
             steps {
                 script {
-                    bad 'terraform --version' // Vérifier que Terraform est accessible
-                    bad 'terraform init' // Initialiser Terraform dans le répertoire du projet
+                    // Initialise Terraform
+                    bat "cd %TERRA_DIR% && terraform init"
                 }
             }
         }
+        
         stage("Terraform Plan") {
             steps {
                 script {
-                    bad 'terraform plan -out=tfplan -input=false' // Planifier les changements Terraform
+                    // Exécute le plan Terraform
+                    bat "cd %TERRA_DIR% && terraform plan"
                 }
             }
         }
+        
         stage("Terraform Apply") {
             steps {
                 script {
-                    bad 'terraform apply -input=false tfplan' // Appliquer les changements Terraform
-                }
-            }
-        }
-        stage("Deploy to Kubernetes") {
-            steps {
-                withCredentials([file(credentialsId: 'configuration2', variable: 'KUBECONFIG')]) {
-                    script {
-                        // Déployer sur Kubernetes
-                        bad "kubectl apply -f mysql-deployment.yaml --kubeconfig=${KUBECONFIG} --validate=false"
-                        bad "kubectl apply -f php-deployment.yaml --kubeconfig=${KUBECONFIG} --validate=false"
-                        bad "kubectl apply -f mysql-service.yaml --kubeconfig=${KUBECONFIG} --validate=false"
-                        bad "kubectl apply -f php-service.yaml --kubeconfig=${KUBECONFIG} --validate=false"
-                    }
+                    // Applique la configuration Terraform
+                    bat "cd %TERRA_DIR% && terraform apply --auto-approve"
                 }
             }
         }
     }
     post {
-        success {
-            // Nettoyer les ressources Terraform en cas de succès
-            bad 'terraform destroy -auto-approve'
-            emailext body: 'Résultat du build : Succès', subject: 'Détails du Build', to: 'sopd479@gmail.com'
+        always {
+            script {
+                // Nettoie l'environnement après l'exécution du pipeline
+                bat "cd %TERRA_DIR% && terraform destroy --auto-approve"
+            }
+        }
+        succes {
+            emailext (
+                subject : "Notification de build de jenkins avec terraform-succes",
+                body : "votre build de pipeline jenkins terraform passe avec succes",
+                to : "sambasy837@gmail.com"
+            )
         }
         failure {
-            emailext body: 'Résultat du build : Échec', subject: 'Détails du Build', to: 'sopd479@gmail.com'
+            emailext (
+                subject : "Notification de build de jenkins avec terraform echec",
+                body : "votre build de pipeline jenkins ne passe pas",
+                to : "sambasy837@gmail.com"
+            )
         }
     }
 }
