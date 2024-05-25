@@ -19,11 +19,7 @@ terraform {
 #}
 
 provider "kubernetes" {
-<<<<<<< HEAD
-  config_path = "C:\\Users\\HP\\.kube\\config"
-=======
   config_path = "C:/Users/HP/.kube/config"
->>>>>>> 96cb62eb805d2a1e61f2be1b32155c6f3e3e2fb6
 }
 
 
