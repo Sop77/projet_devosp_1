@@ -1,10 +1,10 @@
+pipeline {
     agent any
     environment {
         // Assurez-vous que ce chemin mène à votre kubeconfig local généré par Minikube
         KUBECONFIG = "C:\\Users\\HP\\.kube\\config"
         // Chemin où se trouvent vos fichiers Terraform dans votre projet
-        //TERRA_DIR = "C:\\xampp\\htdocs\\Gestion_Etudiant\\terra"
-       TERRA_DIR = "C:\\xampp\\htdocs\\mon_projet_aws\\Terraform"
+        TERRA_DIR = "C:\\xampp\\htdocs\\mon_projet_aws\\Terraform"
     }
     stages {
         stage('Initialization') {
@@ -50,18 +50,18 @@
                 bat "cd %TERRA_DIR% && terraform destroy --auto-approve"
             }
         }
-        succes {
+        success {
             emailext (
-                subject : "Notification de build de jenkins avec terraform-succes",
-                body : "votre build de pipeline jenkins terraform passe avec succes",
-                to : "sopd479@gmail.com"
+                subject: "Notification de build de jenkins avec terraform-succes",
+                body: "votre build de pipeline jenkins terraform passe avec succes",
+                to: "sopd479@gmail.com"
             )
         }
         failure {
             emailext (
-                subject : "Notification de build de jenkins avec terraform echec",
-                body : "votre build de pipeline jenkins ne passe pas",
-                to : "sopd479@gmail.com"
+                subject: "Notification de build de jenkins avec terraform echec",
+                body: "votre build de pipeline jenkins ne passe pas",
+                to: "sopd479@gmail.com"
             )
         }
     }
