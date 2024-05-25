@@ -30,27 +30,14 @@ try {
 
         $stmt->execute();
         if ($stmt->rowCount() > 0) {
-<<<<<<< HEAD
             // Rediriger après la mise à jour
             header("Location: index.php");
           #  exit; // Assurez-vous de sortir du script ici
-=======
-          //  echo "Mise à jour réussie !";
-            header("Location: index.php");
->>>>>>> 4aa825a658925e6ac5750320a58c3dc7ce9b4549
         } else {
             echo "Aucune ligne mise à jour.";
            # exit; // Assurez-vous de sortir du script ici
         }
         
-<<<<<<< HEAD
-=======
-        
-      //  Rediriger après la mise à jour
-       header("Location: index.php");
-        exit;
-    } else {
->>>>>>> 4aa825a658925e6ac5750320a58c3dc7ce9b4549
         // Récupérer les données existantes pour affichage
         $requete = "SELECT * FROM personne WHERE matricule = :matricule";
         $stmt = $connexion->prepare($requete);
