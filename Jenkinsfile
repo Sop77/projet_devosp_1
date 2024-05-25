@@ -7,36 +7,18 @@ pipeline {
         TERRA_DIR = "C:\\xampp\\htdocs\\mon_projet_aws\\Terraform"
     }
     stages {
-        stage('Initialization') {
+        stage('Terraform Operations') {
             steps {
-                // Affiche la version de Terraform pour le débogage
                 script {
+                    // Affiche la version de Terraform pour le débogage
                     bat 'terraform --version'
-                }
-            }
-        }
-        
-        stage("Terraform Init") {
-            steps {
-                script {
+                    
                     // Initialise Terraform
                     bat "cd %TERRA_DIR% && terraform init"
-                }
-            }
-        }
-        
-        stage("Terraform Plan") {
-            steps {
-                script {
+                    
                     // Exécute le plan Terraform
                     bat "cd %TERRA_DIR% && terraform plan"
-                }
-            }
-        }
-        
-        stage("Terraform Apply") {
-            steps {
-                script {
+                    
                     // Applique la configuration Terraform
                     bat "cd %TERRA_DIR% && terraform apply --auto-approve"
                 }
@@ -52,15 +34,15 @@ pipeline {
         }
         success {
             emailext (
-                subject: "Notification de build de jenkins avec terraform-succes",
-                body: "votre build de pipeline jenkins terraform passe avec succes",
+                subject: "Notification de build de Jenkins avec Terraform - Succès",
+                body: "Votre build de pipeline Jenkins Terraform a réussi avec succès.",
                 to: "sopd479@gmail.com"
             )
         }
         failure {
             emailext (
-                subject: "Notification de build de jenkins avec terraform echec",
-                body: "votre build de pipeline jenkins ne passe pas",
+                subject: "Notification de build de Jenkins avec Terraform - Échec",
+                body: "Votre build de pipeline Jenkins a échoué.",
                 to: "sopd479@gmail.com"
             )
         }
