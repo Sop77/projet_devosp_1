@@ -74,7 +74,7 @@ pipeline {
                 bat "cd %TERRA_DIR% && terraform destroy --auto-approve"
             }
         }
-        succes {
+        success {
             emailext (
                 subject : "Notification de build de jenkins avec terraform-succes",
                 body : "votre build de pipeline jenkins terraform passe avec succes",
