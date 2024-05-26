@@ -1,45 +1,68 @@
 pipeline {
-    agent any
     environment {
-        // Assurez-vous que ce chemin mène à votre kubeconfig local généré par Minikube
-        KUBECONFIG = "C:\\Users\\HP\\.kube\\config"
-        // Chemin où se trouvent vos fichiers Terraform dans votre projet
-        //TERRA_DIR = "C:\\xampp\\htdocs\\Gestion_Etudiant\\terra"
-       TERRA_DIR = "C:\\xampp\\htdocs\\mon_projet_aws\\Terraform"
+        webDockerImageName = "sopd/mon_php_img"
+        bdDockerImageName = "sopd/mysql_img"
+        webDockerImage = ""
+        dbDockerImage = ""
+        registryCredential = 'docker-credentiel'
+        KUBECONFIG = "/home/sop/.kube/config"
+        TERRA_DIR  = "/home/sop/ligne-rouge/terraform"
+        ANSIBLE_DIR = "/home/sop/ligne-rouge/ansible"
     }
+    agent any
     stages {
-        stage('Initialization') {
+        stage('Checkout Source') {
             steps {
-                // Affiche la version de Terraform pour le débogage
+                git 'https://github.com/Sop77/projet_devosp_1.git'
+            }
+        }
+        stage('Build Web Docker image') {
+            steps {
                 script {
-                    bat 'terraform --version'
+                    webDockerImage = docker.build webDockerImageName, "-f web.Dockerfile ."
                 }
             }
         }
-        
-        stage("Terraform Init") {
+        stage('Build DB Docker image') {
             steps {
                 script {
-                    // Initialise Terraform
-                    bat "cd %TERRA_DIR% && terraform init"
+                    dbDockerImage = docker.build dbDockerImageName, "-f Db.Dockerfile ."
                 }
             }
         }
-        
-        stage("Terraform Plan") {
+        stage('Pushing Images to Docker Registry') {
             steps {
                 script {
-                    // Exécute le plan Terraform
-                    bat "cd %TERRA_DIR% && terraform plan"
+                    docker.withRegistry('https://registry.hub.docker.com', registryCredential) {
+                        webDockerImage.push('latest')
+                        dbDockerImage.push('latest')
+                    }
                 }
             }
         }
-        
-        stage("Terraform Apply") {
+        stage("Provision Kubernetes Cluster with Terraform") {
             steps {
                 script {
-                    // Applique la configuration Terraform
-                    bat "cd %TERRA_DIR% && terraform apply --auto-approve"
+                    sh """
+                    cd ${TERRA_DIR}
+                    terraform init
+                    terraform plan
+                    terraform apply --auto-approve
+                    """
+                }
+            }
+        }
+        stage('Install Python dependencies and Deploy with Ansible') {
+            steps {
+                script {
+                    sh """
+                    sudo apt-get install -y python3-venv
+                    cd ${ANSIBLE_DIR}
+                    sudo python3 -m venv venv
+                    . venv/bin/activate
+                    pip install kubernetes ansible
+                    ansible-playbook ${ANSIBLE_DIR}/playbook.yml
+                    """
                 }
             }
         }
@@ -55,14 +78,14 @@ pipeline {
             emailext (
                 subject : "Notification de build de jenkins avec terraform-succes",
                 body : "votre build de pipeline jenkins terraform passe avec succes",
-                to : "sambasy837@gmail.com"
+                to : "sopd479@gmail.com"
             )
         }
         failure {
             emailext (
                 subject : "Notification de build de jenkins avec terraform echec",
                 body : "votre build de pipeline jenkins ne passe pas",
-                to : "sambasy837@gmail.com"
+                to : "sopd479@gmail.com"
             )
         }
     }
