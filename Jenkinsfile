@@ -6,8 +6,8 @@ pipeline {
         dbDockerImage = ""
         registryCredential = 'docker-credentiel'
         KUBECONFIG = "/home/sop/.kube/config"
-        TERRA_DIR  = "/home/sop/ligne-rouge/terraform"
-        ANSIBLE_DIR = "/home/sop/ligne-rouge/ansible"
+        TERRA_DIR  = "/home/sop/Bureau/projet_devosp_1/Terraform"
+        ANSIBLE_DIR = "/home/sop/Bureau/projet_devosp_1/Ansible"
     }
     agent any
     stages {
