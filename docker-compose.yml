@@ -6,7 +6,7 @@ services:
       context: .  # Assurez-vous que ce répertoire contient le Dockerfile pour le service web
       dockerfile: web.Dockerfile
     ports:
-      - 8083:80 #Mappage de port
+      - 8084:80 #Mappage de port
     depends_on:    #Signifie que le conteneur db va etre cree en premier
       - db
     environment:
