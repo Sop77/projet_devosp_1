@@ -1,50 +1,26 @@
 pipeline {
     agent any
+
     environment {
-        // Assurez-vous que ce chemin mène à votre kubeconfig local généré par Minikube
-        KUBECONFIG = "C:\\Users\\HP\\.kube\\config"
-        // Chemin où se trouvent vos fichiers Terraform dans votre projet
-        TERRA_DIR = "C:\\xampp\\htdocs\\mon_projet_aws\\Terraform"
+        DOCKER_COMPOSE_FILE = 'docker-compose.yml'
     }
+
     stages {
-        stage('Terraform Operations') {
+        stage('Build Docker Images') {
             steps {
                 script {
-                    // Affiche la version de Terraform pour le débogage
-                    bat 'terraform --version'
-                    
-                    // Initialise Terraform
-                    bat "cd %TERRA_DIR% && terraform init"
-                    
-                    // Exécute le plan Terraform
-                    bat "cd %TERRA_DIR% && terraform plan"
-                    
-                    // Applique la configuration Terraform
-                    bat "cd %TERRA_DIR% && terraform apply --auto-approve"
+                    // Construire les images Docker définies dans le fichier docker-compose.yml
+                    sh "docker-compose -f ${DOCKER_COMPOSE_FILE} build"
                 }
             }
         }
-    }
-    post {
-        always {
-            script {
-                // Nettoie l'environnement après l'exécution du pipeline
-                bat "cd %TERRA_DIR% && terraform destroy --auto-approve"
+        stage('Deploy Docker Containers') {
+            steps {
+                script {
+                    // Démarrer les conteneurs Docker en arrière-plan
+                    sh "docker-compose -f ${DOCKER_COMPOSE_FILE} up -d"
+                }
             }
-        }
-        success {
-            emailext (
-                subject: "Notification de build de Jenkins avec Terraform - Succès",
-                body: "Votre build de pipeline Jenkins Terraform a réussi avec succès.",
-                to: "sopd479@gmail.com"
-            )
-        }
-        failure {
-            emailext (
-                subject: "Notification de build de Jenkins avec Terraform - Échec",
-                body: "Votre build de pipeline Jenkins a échoué.",
-                to: "sopd479@gmail.com"
-            )
         }
     }
 }
