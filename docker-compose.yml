@@ -28,7 +28,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
     ports:
-      - "3308:3306"  # Mappage du port 3306 de l'hôte au port 3306 du conteneur
+      - "3309:3306"  # Mappage du port 3306 de l'hôte au port 3306 du conteneur
 volumes:
   mysql_data:
 
