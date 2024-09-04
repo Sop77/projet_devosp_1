@@ -1,26 +1,23 @@
 pipeline {
-    agent any
-
-    environment {
-        DOCKER_COMPOSE_FILE = 'docker-compose.yml'
+  agent any
+  stages {
+    stage ('test') {
+      steps {
+        bat 'docker ps -a'
+      }
     }
-
-    stages {
-        stage('Build Docker Images') {
-            steps {
-                script {
-                    // Construire les images Docker définies dans le fichier docker-compose.yml
-                    sh "docker-compose -f ${DOCKER_COMPOSE_FILE} build"
-                }
-            }
-        }
-        stage('Deploy Docker Containers') {
-            steps {
-                script {
-                    // Démarrer les conteneurs Docker en arrière-plan
-                    sh "docker-compose -f ${DOCKER_COMPOSE_FILE} up -d"
-                }
-            }
-        }
+    stage ('Run Docker Compose') {
+      steps {
+        bat 'docker-compose up  -d'
+      }
     }
+  }
+  post {
+    success {
+      slackSend channel: '#projet_devOps', message: 'Code execute'
+    }
+    failure {
+      slackSend channel: '#projet_devOps', message: 'Code execute with error'
+    }
+  }
 }
